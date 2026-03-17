@@ -6,6 +6,7 @@ import { ToastController } from '@ionic/angular';
   selector: 'app-cash',
   templateUrl: './cash.page.html',
   styleUrls: ['./cash.page.scss'],
+  standalone: false,
 })
 export class CashPage implements OnInit {
   private posService = inject(PosService);
