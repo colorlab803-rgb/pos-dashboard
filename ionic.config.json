@@ -1,0 +1,7 @@
+{
+  "name": "pos-dashboard",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,83 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <div class="menu-header">
+          <div class="logo-area">
+            <div class="logo-icon">{{ businessName | slice:0:3 | uppercase }}</div>
+            <div class="logo-text">
+              <span class="brand">{{ businessName }}</span>
+              <span class="subtitle">Sistema de Ventas</span>
+            </div>
+          </div>
+          <div class="cashier-info">
+            <ion-avatar>
+              <div class="avatar-placeholder">{{ session.cashier_initials }}</div>
+            </ion-avatar>
+            <div>
+              <div class="cashier-name">{{ session.cashier_name }}</div>
+              <div class="cashier-role">{{ session.role }}</div>
+            </div>
+          </div>
+        </div>
+
+        <ion-list lines="none" class="menu-list">
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/dashboard" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="grid-outline"></ion-icon>
+              <ion-label>Dashboard</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/sales" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="cart-outline"></ion-icon>
+              <ion-label>Nueva Venta</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/inventory" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="cube-outline"></ion-icon>
+              <ion-label>Inventario</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/customers" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="people-outline"></ion-icon>
+              <ion-label>Clientes</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/reports" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="bar-chart-outline"></ion-icon>
+              <ion-label>Reportes</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="session.role === 'Admin'">
+            <ion-item routerLink="/pages/users" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+              <ion-label>Usuarios</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <div class="menu-footer">
+          <div class="session-info">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>Turno: {{ session.shift_start }} - {{ session.shift_end }}</span>
+          </div>
+          <ion-button fill="clear" size="small" color="medium" expand="block" (click)="logout()">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            Cerrar sesion
+          </ion-button>
+        </div>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

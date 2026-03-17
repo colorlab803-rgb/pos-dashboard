@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="dark" (click)="openAddCustomer()">
+        <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filter()"
+      placeholder="Buscar cliente..."
+      debounce="200">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cust-content">
+  <!-- Stats -->
+  <div class="cust-stats">
+    <div class="cst-card">
+      <div class="cst-num">{{ customers.length }}</div>
+      <div class="cst-lbl">Total</div>
+    </div>
+    <div class="cst-card">
+      <div class="cst-num">0</div>
+      <div class="cst-lbl">Nuevos hoy</div>
+    </div>
+    <div class="cst-card">
+      <div class="cst-num">${{ avgPurchase | number:'1.0-0' }}</div>
+      <div class="cst-lbl">Compra prom.</div>
+    </div>
+  </div>
+
+  <!-- Lista clientes -->
+  <div *ngIf="filtered.length > 0; else emptyCustomers">
+    <div class="cust-card" *ngFor="let c of filtered">
+      <div class="cust-avatar">{{ getInitials(c.name) }}</div>
+      <div class="cust-info">
+        <div class="cust-name">{{ c.name }}</div>
+        <div class="cust-contact">{{ c.email }}</div>
+        <div class="cust-contact">{{ c.phone }}</div>
+      </div>
+      <div class="cust-right">
+        <div class="cust-total">${{ c.total_purchases | number:'1.0-0' }}</div>
+        <div class="cust-last">{{ c.last_visit | date:'d MMM' }}</div>
+        <div class="visit-badge" [class.today]="isToday(c.last_visit)">
+          {{ isToday(c.last_visit) ? 'Hoy' : 'Reciente' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCustomers>
+    <div class="empty-state">
+      <ion-icon name="people-outline"></ion-icon>
+      <p>No hay clientes registrados</p>
+      <ion-button fill="outline" size="small" (click)="openAddCustomer()">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Agregar cliente
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-content>

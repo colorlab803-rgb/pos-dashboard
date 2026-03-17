@@ -1,0 +1,210 @@
+ion-toolbar {
+  --background: #fff;
+  --color: #111827;
+  --border-color: #e8eaf0;
+}
+
+ion-title { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+
+ion-segment {
+  --background: transparent;
+  padding: 0 16px 10px;
+}
+
+ion-segment-button {
+  --color: #9ca3af;
+  --color-checked: #4f46e5;
+  --indicator-color: #4f46e5;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rep-content {
+  --background: #f5f6fa;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-bottom: 40px;
+}
+
+.rep-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 0 4px;
+}
+
+.rep-kpi {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.rep-kpi-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.rep-kpi-lbl {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin: 12px 0 0;
+}
+
+.card.last-card { margin-bottom: 0; }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.1px;
+}
+
+/* Bar chart */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 90px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.bar {
+  width: 100%;
+  background: #e8eaf0;
+  border-radius: 5px 5px 0 0;
+  min-height: 4px;
+}
+
+.today-bar { background: #4f46e5; }
+
+.bar-label { font-size: 10px; color: #d1d5db; font-weight: 500; }
+
+/* Pay methods */
+.pay-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.pay-row:last-child { border-bottom: none; }
+
+.pay-icon {
+  width: 34px;
+  height: 34px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon { font-size: 16px; color: #9ca3af; }
+}
+
+.pay-info { flex: 1; }
+
+.pay-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 5px;
+}
+
+.pay-bar-wrap {
+  height: 4px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pay-bar { height: 100%; border-radius: 4px; background: #4f46e5; }
+
+.pay-pct { font-size: 12px; font-weight: 600; color: #9ca3af; min-width: 32px; text-align: right; }
+
+/* List rows */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.list-row:last-child { border-bottom: none; }
+
+.row-rank { font-size: 12px; font-weight: 700; color: #e5e7eb; min-width: 18px; }
+.row-name { flex: 1; font-size: 13px; font-weight: 500; color: #374151; }
+.row-sold { font-size: 11px; color: #9ca3af; }
+.row-rev  { font-size: 13px; font-weight: 700; color: #111827; }
+
+/* Ticket rows */
+.ticket-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f9fafb;
+  gap: 10px;
+}
+
+.ticket-row:last-child { border-bottom: none; }
+
+.tkt-id     { font-size: 12px; font-weight: 600; color: #374151; min-width: 76px; }
+.tkt-time   { font-size: 11px; color: #9ca3af; }
+.tkt-cashier { flex: 1; font-size: 12px; color: #6b7280; }
+.tkt-total  { font-size: 14px; font-weight: 700; color: #111827; }
+
+.tkt-method {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+/* Empty states */
+.empty-state-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  gap: 8px;
+
+  ion-icon { font-size: 30px; color: #e5e7eb; }
+  span { font-size: 12px; color: #d1d5db; }
+}

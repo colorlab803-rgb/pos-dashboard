@@ -1,0 +1,56 @@
+<ion-content class="login-content">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-circle">POS</div>
+        <h1>Libertad</h1>
+        <p class="subtitle">Sistema de Ventas</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()">
+        <ion-item *ngIf="isRegister" lines="none" class="login-input">
+          <ion-input
+            [(ngModel)]="fullName"
+            name="fullName"
+            type="text"
+            placeholder="Nombre completo"
+            autocomplete="name">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="login-input">
+          <ion-input
+            [(ngModel)]="username"
+            name="username"
+            type="text"
+            placeholder="Usuario"
+            autocomplete="username">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="login-input">
+          <ion-input
+            [(ngModel)]="password"
+            name="password"
+            type="password"
+            placeholder="Contrasena"
+            autocomplete="current-password">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" color="primary" class="login-btn">
+          {{ isRegister ? 'Crear cuenta' : 'Iniciar sesion' }}
+        </ion-button>
+      </form>
+
+      <ion-button
+        fill="clear"
+        size="small"
+        expand="block"
+        (click)="isRegister = !isRegister"
+        class="toggle-btn">
+        {{ isRegister ? 'Ya tengo cuenta' : 'Crear primera cuenta' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

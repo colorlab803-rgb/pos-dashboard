@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestión de Usuarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="dark" (click)="openAddUser()">
+        <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="users-content">
+  <div *ngIf="users.length > 0; else loadingState">
+    <div class="user-card" *ngFor="let u of users" [class.inactive]="!u.is_active">
+      <div class="user-avatar">{{ getInitials(u.full_name) }}</div>
+      <div class="user-info">
+        <div class="user-name">
+          {{ u.full_name }}
+          <ion-badge [color]="u.role === 'admin' ? 'primary' : 'medium'">
+            {{ u.role === 'admin' ? 'Admin' : 'Cajero' }}
+          </ion-badge>
+        </div>
+        <div class="user-username">Usuario: {{ u.username }}</div>
+        <div class="user-date" *ngIf="u.created_at">Registrado: {{ u.created_at | date:'M/d/yy, h:mm a' }}</div>
+      </div>
+      <div class="user-actions">
+        <ion-button fill="clear" size="small" (click)="toggleStatus(u)">
+          <ion-icon slot="icon-only" [name]="u.is_active ? 'pause-circle-outline' : 'play-circle-outline'"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" (click)="editUser(u)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" color="danger" (click)="deleteUser(u)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="empty-state">
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <p *ngIf="!loading">No hay usuarios disponibles</p>
+    </div>
+  </ng-template>
+</ion-content>

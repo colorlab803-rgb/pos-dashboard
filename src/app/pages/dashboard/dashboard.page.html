@@ -1,0 +1,128 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="dark">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-content">
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap indigo">
+        <ion-icon name="cash-outline"></ion-icon>
+      </div>
+      <div class="kpi-label">Ventas hoy</div>
+      <div class="kpi-value">${{ stats.today_sales | number:'1.0-0' }}</div>
+      <div class="kpi-sub" *ngIf="stats.avg_ticket > 0">
+        Prom. ${{ stats.avg_ticket | number:'1.0-0' }}
+      </div>
+      <div class="kpi-sub empty-hint" *ngIf="stats.avg_ticket === 0">Sin ventas</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap green">
+        <ion-icon name="receipt-outline"></ion-icon>
+      </div>
+      <div class="kpi-label">Tickets</div>
+      <div class="kpi-value">{{ stats.today_tickets }}</div>
+      <div class="kpi-sub" *ngIf="stats.today_tickets > 0">
+        Hoy
+      </div>
+      <div class="kpi-sub empty-hint" *ngIf="stats.today_tickets === 0">Sin tickets</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap amber">
+        <ion-icon name="trending-up-outline"></ion-icon>
+      </div>
+      <div class="kpi-label">Esta semana</div>
+      <div class="kpi-value">${{ stats.week_sales | number:'1.0-0' }}</div>
+      <div class="kpi-sub">Acumulado</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap blue">
+        <ion-icon name="people-outline"></ion-icon>
+      </div>
+      <div class="kpi-label">Clientes nuevos</div>
+      <div class="kpi-value">{{ stats.new_customers }}</div>
+      <div class="kpi-sub">Hoy</div>
+    </div>
+  </div>
+
+  <!-- Gráfico semanal -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Esta semana</span>
+    </div>
+    <div class="bar-chart" *ngIf="maxWeekly > 1; else emptyChart">
+      <div class="bar-col" *ngFor="let val of weeklySales; let i = index">
+        <div class="bar" [style.height.%]="(val / maxWeekly) * 100"
+          [class.bar-today]="i === weeklySales.length - 1"></div>
+        <span class="bar-day">{{ weekDays[i] }}</span>
+      </div>
+    </div>
+    <ng-template #emptyChart>
+      <div class="empty-sm">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <span>Sin datos esta semana</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Top productos -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Más vendidos</span>
+    </div>
+    <div *ngIf="topProducts.length > 0; else emptyTop">
+      <div class="list-row" *ngFor="let p of topProducts; let i = index">
+        <span class="rank">{{ i + 1 }}</span>
+        <span class="row-main">{{ p.name }}</span>
+        <span class="row-sub">{{ p.sold }} uds.</span>
+        <span class="row-value">${{ p.revenue | number:'1.0-0' }}</span>
+      </div>
+    </div>
+    <ng-template #emptyTop>
+      <div class="empty-sm">
+        <ion-icon name="trophy-outline"></ion-icon>
+        <span>Sin ventas aún</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Últimas ventas -->
+  <div class="card last">
+    <div class="card-header">
+      <span class="card-title">Últimas ventas</span>
+      <a class="card-link" routerLink="/pages/reports">Ver todas</a>
+    </div>
+    <div *ngIf="recentSales.length > 0; else emptySales">
+      <div class="list-row" *ngFor="let s of recentSales">
+        <span class="ticket-id">{{ s.ticket_id }}</span>
+        <span class="row-sub flex-1">{{ s.created_at | date:'HH:mm' }}</span>
+        <span class="tag" [class.tag-card]="s.payment_method === 'Tarjeta'">{{ s.payment_method }}</span>
+        <span class="row-value">${{ s.total | number:'1.0-0' }}</span>
+      </div>
+    </div>
+    <ng-template #emptySales>
+      <div class="empty-lg">
+        <ion-icon name="receipt-outline"></ion-icon>
+        <p>No hay ventas hoy</p>
+        <ion-button fill="solid" color="primary" size="small" routerLink="/pages/sales">
+          Nueva venta
+        </ion-button>
+      </div>
+    </ng-template>
+  </div>
+
+</ion-content>

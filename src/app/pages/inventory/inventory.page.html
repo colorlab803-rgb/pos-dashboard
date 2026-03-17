@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inventario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="dark" (click)="openAddProduct()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filter()"
+      placeholder="Buscar producto o SKU..."
+      debounce="200">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="inv-content">
+  <!-- Resumen stock -->
+  <div class="stock-summary">
+    <div class="stock-stat">
+      <div class="stat-num">{{ products.length }}</div>
+      <div class="stat-lbl">Productos</div>
+    </div>
+    <div class="stock-stat warning">
+      <div class="stat-num">{{ lowStockCount }}</div>
+      <div class="stat-lbl">Stock bajo</div>
+    </div>
+    <div class="stock-stat categories">
+      <div class="stat-num">{{ categoryCount }}</div>
+      <div class="stat-lbl">Categorías</div>
+    </div>
+  </div>
+
+  <!-- Lista de productos -->
+  <ion-list class="product-list" *ngIf="filtered.length > 0; else emptyInventory">
+    <ion-item-sliding *ngFor="let p of filtered">
+      <ion-item class="product-item" lines="none">
+        <div class="item-icon" slot="start">
+          <ion-icon [name]="getCatIcon(p.category)"></ion-icon>
+        </div>
+        <ion-label>
+          <div class="item-name">{{ p.name }}</div>
+          <div class="item-meta">SKU: {{ p.sku }} · {{ p.category }}</div>
+          <div class="item-stock-row">
+            <div class="stock-bar-wrap">
+              <div class="stock-bar" [style.width.%]="getStockPct(p.stock)"
+                [class.low]="isLowStock(p.stock)" [class.ok]="!isLowStock(p.stock)"></div>
+            </div>
+            <span class="stock-count" [class.low-text]="isLowStock(p.stock)">
+              {{ p.stock }} uds.
+            </span>
+          </div>
+        </ion-label>
+        <div class="item-price" slot="end">${{ p.price }}</div>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="primary" expandable (click)="editProduct(p)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ng-template #emptyInventory>
+    <div class="empty-state">
+      <ion-icon name="cube-outline"></ion-icon>
+      <p>No hay productos en el inventario</p>
+      <ion-button fill="outline" size="small" (click)="openAddProduct()">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Agregar producto
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-content>

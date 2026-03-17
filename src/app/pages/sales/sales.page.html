@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Nueva Venta</ion-title>
+    <ion-buttons slot="end">
+      <ion-badge color="dark" *ngIf="cartCount > 0">{{ cartCount }}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Buscador + filtros -->
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterProducts()"
+      placeholder="Buscar producto..."
+      debounce="200">
+    </ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedCategory" (ionChange)="filterProducts()" scrollable>
+      <ion-segment-button *ngFor="let cat of categories" [value]="cat">{{ cat }}</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sales-content">
+  <!-- Grid de productos -->
+  <div class="products-grid" *ngIf="filteredProducts.length > 0; else emptyProducts">
+    <div class="product-card" *ngFor="let p of filteredProducts" (click)="addToCart(p)">
+      <div class="product-icon">
+        <ion-icon [name]="getCategoryIcon(p.category)"></ion-icon>
+      </div>
+      <div class="product-name">{{ p.name }}</div>
+      <div class="product-price">${{ p.price }}</div>
+      <div class="product-stock" [class.low-stock]="isLowStock(p.stock)">
+        Stock: {{ p.stock }}
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyProducts>
+    <div class="empty-state">
+      <ion-icon name="storefront-outline"></ion-icon>
+      <p>No hay productos disponibles</p>
+      <ion-button fill="outline" size="small" routerLink="/pages/inventory">
+        <ion-icon slot="start" name="cube-outline"></ion-icon>
+        Ir al inventario
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-content>
+
+<!-- Panel del carrito (footer) -->
+<ion-footer *ngIf="cartItems.length > 0">
+  <div class="cart-panel">
+    <div class="cart-header" (click)="cartExpanded = !cartExpanded">
+      <span class="cart-title">Carrito ({{ cartCount }} items)</span>
+      <span class="cart-total-preview">${{ cartTotal | number:'1.0-0' }}</span>
+      <ion-icon [name]="cartExpanded ? 'chevron-down-outline' : 'chevron-up-outline'"></ion-icon>
+    </div>
+
+    <div class="cart-items" *ngIf="cartExpanded">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <span class="cart-item-name">{{ item.product.name }}</span>
+        <div class="cart-item-qty">
+          <ion-button fill="clear" size="small" (click)="updateQty(item.product.id, item.quantity - 1)">
+            <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+          </ion-button>
+          <span>{{ item.quantity }}</span>
+          <ion-button fill="clear" size="small" (click)="updateQty(item.product.id, item.quantity + 1)">
+            <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <span class="cart-item-subtotal">${{ item.product.price * item.quantity | number:'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <div class="cart-actions">
+      <ion-button fill="outline" color="medium" size="small" (click)="clearCart()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Vaciar
+      </ion-button>
+      <ion-button expand="block" color="success" (click)="openPayment()">
+        <ion-icon slot="start" name="card-outline"></ion-icon>
+        Cobrar ${{ cartTotal | number:'1.0-0' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-footer>

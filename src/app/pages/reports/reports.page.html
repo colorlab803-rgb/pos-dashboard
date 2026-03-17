@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Reportes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="dark">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="period" (ionChange)="changePeriod()">
+      <ion-segment-button value="dia">Hoy</ion-segment-button>
+      <ion-segment-button value="semana">Semana</ion-segment-button>
+      <ion-segment-button value="mes">Mes</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="rep-content">
+
+  <!-- KPIs -->
+  <div class="rep-kpis">
+    <div class="rep-kpi">
+      <div class="rep-kpi-val">${{ currentSales | number:'1.0-0' }}</div>
+      <div class="rep-kpi-lbl">Ventas</div>
+    </div>
+    <div class="rep-kpi">
+      <div class="rep-kpi-val">{{ currentTickets }}</div>
+      <div class="rep-kpi-lbl">Tickets</div>
+    </div>
+    <div class="rep-kpi">
+      <div class="rep-kpi-val">${{ avgTicket | number:'1.0-0' }}</div>
+      <div class="rep-kpi-lbl">Promedio</div>
+    </div>
+  </div>
+
+  <!-- Gráfico -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Ventas por {{ periodLabel }}</span>
+    </div>
+    <div class="bar-chart" *ngIf="maxChart > 0; else emptyChart">
+      <div class="bar-col" *ngFor="let val of chartData; let i = index">
+        <div class="bar" [style.height.%]="(val / maxChart) * 100"
+          [class.today-bar]="i === chartData.length - 1"></div>
+        <span class="bar-label">{{ chartLabels[i] }}</span>
+      </div>
+    </div>
+    <ng-template #emptyChart>
+      <div class="empty-state-inline">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <span>Sin datos en este período</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Métodos de pago -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Métodos de Pago</span>
+    </div>
+    <div class="empty-state-inline" *ngIf="paymentMethods.length === 0">
+      <ion-icon name="card-outline"></ion-icon>
+      <span>Sin transacciones</span>
+    </div>
+    <div class="pay-row" *ngFor="let pm of paymentMethods">
+      <div class="pay-icon">
+        <ion-icon [name]="pm.method === 'Tarjeta' ? 'card-outline' : 'cash-outline'"></ion-icon>
+      </div>
+      <div class="pay-info">
+        <span class="pay-name">{{ pm.method }}</span>
+        <div class="pay-bar-wrap">
+          <div class="pay-bar" [style.width.%]="pm.percentage"></div>
+        </div>
+      </div>
+      <span class="pay-pct">{{ pm.percentage | number:'1.0-0' }}%</span>
+    </div>
+  </div>
+
+  <!-- Más vendidos -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Más vendidos</span>
+    </div>
+    <div *ngIf="topProducts.length > 0; else emptyTop">
+      <div class="list-row" *ngFor="let p of topProducts; let i = index">
+        <span class="row-rank">{{ i + 1 }}</span>
+        <span class="row-name">{{ p.name }}</span>
+        <span class="row-sold">{{ p.sold }} uds.</span>
+        <span class="row-rev">${{ p.revenue | number:'1.0-0' }}</span>
+      </div>
+    </div>
+    <ng-template #emptyTop>
+      <div class="empty-state-inline">
+        <ion-icon name="trophy-outline"></ion-icon>
+        <span>Sin ventas en este período</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Tickets -->
+  <div class="section last-card">
+    <div class="section-header">
+      <span class="section-title">Tickets</span>
+    </div>
+    <div *ngIf="recentSales.length > 0; else emptyTickets">
+      <div class="ticket-row" *ngFor="let s of recentSales">
+        <span class="tkt-id">{{ s.id }}</span>
+        <span class="tkt-time">{{ s.created_at | date:'HH:mm' }}</span>
+        <span class="tkt-cashier">{{ s.cashier }}</span>
+        <span class="tkt-total">${{ s.total | number:'1.0-0' }}</span>
+        <span class="tkt-method">{{ s.payment_method }}</span>
+      </div>
+    </div>
+    <ng-template #emptyTickets>
+      <div class="empty-state-inline">
+        <ion-icon name="receipt-outline"></ion-icon>
+        <span>No hay tickets registrados</span>
+      </div>
+    </ng-template>
+  </div>
+
+</ion-content>

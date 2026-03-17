@@ -1,0 +1,131 @@
+ion-toolbar {
+  --background: #fff;
+  --color: #111827;
+  --border-color: #e8eaf0;
+}
+
+ion-title { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+
+ion-searchbar {
+  --background: #f3f4f6;
+  --color: #111827;
+  --placeholder-color: #9ca3af;
+  --icon-color: #9ca3af;
+  --border-radius: 10px;
+  --box-shadow: none;
+  padding: 6px 12px;
+}
+
+.cust-content {
+  --background: #f5f6fa;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-bottom: 24px;
+}
+
+.cust-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 0 4px;
+}
+
+.cst-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.cst-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.cst-lbl {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+}
+
+.cust-card {
+  background: #fff;
+  border-radius: 14px;
+  margin: 10px 0 0;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.cust-avatar {
+  width: 40px;
+  height: 40px;
+  background: #eef2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4f46e5;
+  flex-shrink: 0;
+}
+
+.cust-info { flex: 1; min-width: 0; }
+
+.cust-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cust-contact { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+
+.cust-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.cust-total { font-size: 14px; font-weight: 700; color: #111827; }
+.cust-last  { font-size: 11px; color: #9ca3af; }
+
+.visit-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.visit-badge.today {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  gap: 12px;
+  color: #e5e7eb;
+
+  ion-icon { font-size: 48px; }
+  p { font-size: 13px; color: #d1d5db; margin: 0; text-align: center; }
+}
