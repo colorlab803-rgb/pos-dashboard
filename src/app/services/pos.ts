@@ -102,6 +102,30 @@ export interface SessionInfo {
   shift_end: string;
 }
 
+export interface CashSession {
+  id: number;
+  opened_by: number;
+  closed_by: number | null;
+  opened_at: string;
+  closed_at: string | null;
+  initial_balance: number;
+  final_balance: number | null;
+  system_balance: number | null;
+  difference: number | null;
+  notes: string | null;
+  is_open: boolean;
+}
+
+export interface CashSessionIn {
+  initial_balance: number;
+  notes?: string;
+}
+
+export interface CashCutIn {
+  final_balance: number;
+  notes?: string;
+}
+
 const API = environment.apiUrl;
 
 @Injectable({ providedIn: 'root' })
@@ -139,6 +163,11 @@ export class PosService {
   getConfig()        { return firstValueFrom(this.http.get<BusinessConfig>(`${API}/config`)); }
   getSession()       { return firstValueFrom(this.http.get<SessionInfo>(`${API}/session`)); }
   getCategories()    { return firstValueFrom(this.http.get<string[]>(`${API}/categories`)); }
+
+  // -- Cash Register --
+  getCashSession()   { return firstValueFrom(this.http.get<CashSession | {message: string}>(`${API}/cash/current`)); }
+  openCashSession(data: CashSessionIn) { return firstValueFrom(this.http.post<CashSession>(`${API}/cash/open`, data)); }
+  closeCashSession(data: CashCutIn)    { return firstValueFrom(this.http.post<CashSession>(`${API}/cash/close`, data)); }
 
   // -- Reports --
   getDailyStats()        { return firstValueFrom(this.http.get<DailyStats>(`${API}/reports/stats`)); }

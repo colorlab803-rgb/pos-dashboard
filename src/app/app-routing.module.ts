@@ -46,6 +46,10 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'pages/dashboard',
   },
+  {
+    path: 'cash',
+    loadChildren: () => import('./pages/cash/cash.module').then( m => m.CashPageModule)
+  },
 ];
 
 @NgModule({

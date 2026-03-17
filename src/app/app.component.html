@@ -57,6 +57,13 @@
             </ion-item>
           </ion-menu-toggle>
 
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/pages/cash" routerLinkActive="active-link" detail="false">
+              <ion-icon slot="start" name="wallet-outline"></ion-icon>
+              <ion-label>Corte de Caja</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
           <ion-menu-toggle auto-hide="false" *ngIf="session.role === 'Admin'">
             <ion-item routerLink="/pages/users" routerLinkActive="active-link" detail="false">
               <ion-icon slot="start" name="lock-closed-outline"></ion-icon>

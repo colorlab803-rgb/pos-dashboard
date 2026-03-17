@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Corte de Caja</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="page-header">
+    <h1>Gestión de Caja</h1>
+    <p>Apertura y cierre de turnos y finanzas</p>
+  </div>
+
+  <ion-spinner *ngIf="loading" color="primary"></ion-spinner>
+
+  <ng-container *ngIf="!loading">
+    <!-- NO HAY CAJA ABIERTA -->
+    <ion-card *ngIf="!currentSession" class="action-card">
+      <ion-card-header>
+        <ion-card-title>Caja Cerrada</ion-card-title>
+        <ion-card-subtitle>Abre un nuevo turno de cuenta para hoy</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="cash-outline" slot="start" color="medium"></ion-icon>
+          <ion-label position="floating">Monto Inicial en Efectivo ($)</ion-label>
+          <ion-input type="number" [(ngModel)]="initialBalance" min="0"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="document-text-outline" slot="start" color="medium"></ion-icon>
+          <ion-label position="floating">Notas / Observaciones (Opcional)</ion-label>
+          <ion-input type="text" [(ngModel)]="openNotes"></ion-input>
+        </ion-item>
+
+        <div class="action-buttons">
+          <ion-button expand="block" (click)="openSession()" color="primary">
+            <ion-icon name="lock-open-outline" slot="start"></ion-icon>
+            ABRIR CAJA
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- CAJA ESTÁ ABIERTA -->
+    <ion-card *ngIf="currentSession" class="action-card">
+      <ion-card-header>
+        <ion-card-title color="success">Caja Abierta</ion-card-title>
+        <ion-card-subtitle>Apertura: {{ currentSession.opened_at | date:'short' }}</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="stats-row">
+          <div class="stat-col">
+            <span class="label">Monto con el que abriste:</span>
+            <span class="value">{{ currentSession.initial_balance | currency }}</span>
+          </div>
+        </div>
+        <p class="guide-text">
+          Para realizar el cierre de caja, ingresa por favor la suma total de efectivo físico del que dispones actualmente.
+        </p>
+
+        <ion-item>
+          <ion-icon name="wallet-outline" slot="start" color="medium"></ion-icon>
+          <ion-label position="floating">Efectivo Total en Caja Físicon ($)</ion-label>
+          <ion-input type="number" [(ngModel)]="finalBalance" min="0"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="create-outline" slot="start" color="medium"></ion-icon>
+          <ion-label position="floating">Notas del cierre (Opcional)</ion-label>
+          <ion-input type="text" [(ngModel)]="closeNotes"></ion-input>
+        </ion-item>
+
+        <div class="action-buttons">
+          <ion-button expand="block" (click)="closeSession()" color="danger">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            CERRAR CAJA / HACER CORTE
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+</ion-content>
